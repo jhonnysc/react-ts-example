@@ -34,6 +34,8 @@ export const UpdateUserModal: React.FC<UpdateUserModalProps> = ({
   const handleSubmit: SubmitHandler<CreateUser> = user => {
     onConfirm(user)
   }
+
+  const formatDate = (date: string) => {}
   return (
     <Modal onClose={onClose} pending={loading}>
       <ModalTitle>{title}</ModalTitle>
@@ -42,7 +44,7 @@ export const UpdateUserModal: React.FC<UpdateUserModalProps> = ({
           <Input name="name" label="Nome" />
           <Input name="email" label="Email" type="email" />
           <Input name="hobby" label="Hobby" />
-          <Input name="dayOfBirth" label="Data de Nascimento" />
+          <Input name="dayOfBirth" label="Data de Nascimento" type="date" />
           <Input name="age" label="Idade" type="number" />
           <Input name="sex" label="Sexo" />
         </FormContainer>

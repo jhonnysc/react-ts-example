@@ -41,7 +41,7 @@ export const CreateUserModal: React.FC<CreateUserProps> = ({
           <Input name="email" label="Email" type="email" />
           <Input name="password" label="Senha" type="password" />
           <Input name="hobby" label="Hobby" />
-          <Input name="dayOfBirth" label="Data de Nascimento" />
+          <Input name="dayOfBirth" label="Data de Nascimento" type="date" />
           <Input name="age" label="Idade" type="number" />
           <Input name="sex" label="Sexo" />
 

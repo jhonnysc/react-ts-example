@@ -92,7 +92,11 @@ export const Home: React.FC = () => {
 
   const handleCreateUser = (user: CreateUser) => {
     dispatch(
-      Creators.createUser({ ...user, age: parseInt(user.age as string, 10) }),
+      Creators.createUser({
+        ...user,
+        age: parseInt(user.age as string, 10),
+        dayOfBirth: new Date(user.dayOfBirth).toISOString(),
+      }),
     )
   }
 
@@ -104,7 +108,11 @@ export const Home: React.FC = () => {
     if (selectedUser)
       dispatch(
         Creators.updateUser(
-          { ...user, age: parseInt(user.age as string, 10) },
+          {
+            ...user,
+            age: parseInt(user.age as string, 10),
+            dayOfBirth: new Date(user.dayOfBirth).toISOString(),
+          },
           selectedUser?._id,
         ),
       )
