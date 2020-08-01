@@ -14,7 +14,7 @@ const Select: React.FC<Props> = ({ name, ...rest }) => {
     registerField({
       name: fieldName,
       ref: selectRef.current,
-      getValue: (ref: any) => {
+      getValue: (ref: SelectProps<OptionTypeBase>) => {
         if (rest.isMulti) {
           if (!ref.state.value) {
             return []
@@ -24,7 +24,7 @@ const Select: React.FC<Props> = ({ name, ...rest }) => {
         if (!ref.state.value) {
           return ''
         }
-        return ref.state.value.value
+        return ref.state.value
       },
     })
   }, [fieldName, registerField, rest.isMulti])
