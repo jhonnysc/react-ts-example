@@ -8,6 +8,7 @@ import {
   UserActionsEnum,
   DeleteUser,
   CreateUserRequest,
+  UpdateUser,
 } from '../ducks/users'
 import { SagaType } from './types'
 
@@ -45,5 +46,17 @@ export function* requestCreateUser(
     yield put(Creators.requestUsers({ limit: 10, page: 1 }))
   } catch (err) {
     yield put(Creators.createUserFailure())
+  }
+}
+
+export function* requestUpdateUser(
+  payload: SagaType<UpdateUser, UserActionsEnum.UPDATE_USER>,
+) {
+  try {
+    yield call(api.put, `/developers/${payload.id}`, payload.user)
+    yield put(Creators.updateUserSuccess())
+    yield put(Creators.requestUsers({ limit: 10, page: 1 }))
+  } catch (err) {
+    yield put(Creators.updateUserFailure())
   }
 }

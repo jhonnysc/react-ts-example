@@ -19,8 +19,13 @@ export enum UserActionsEnum {
   CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS',
   CREATE_USER_FAILURE = 'CREATE_USER_FAILURE',
 
+  UPDATE_USER = 'UPDATE_USER',
+  UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS',
+  UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE',
+
   SET_CONFIRM_MODAL_STATE = 'SET_CONFIRM_MODAL_STATE',
   SET_CREATE_MODAL_STATE = 'SET_CREATE_MODAL_STATE',
+  SET_UPDATE_MODAL_STATE = 'SET_UPDATE_MODAL_STATE',
 }
 
 export interface ActionTypes extends Action<UserActionsEnum> {
@@ -32,9 +37,13 @@ export interface ActionTypes extends Action<UserActionsEnum> {
   deleteUserFailure: () => Action
   setConfirmModalState: (action: boolean) => Action
   setCreateModalState: (action: boolean) => Action
+  setUpdateModalState: (action: boolean) => Action
   createUser: (user: CreateUser) => Action
   createUserSuccess: () => Action
   createUserFailure: () => Action
+  updateUser: (user: Partial<CreateUser>, id: string) => Action
+  updateUserSuccess: () => Action
+  updateUserFailure: () => Action
 }
 
 type UserTypes = typeof UserActionsEnum
@@ -49,9 +58,13 @@ export const { Types, Creators } = createActions<UserTypes, ActionTypes>({
   deleteUserFailure: null,
   setConfirmModalState: ['value'],
   setCreateModalState: ['value'],
+  setUpdateModalState: ['value'],
   createUser: ['user'],
   createUserSuccess: null,
   createUserFailure: null,
+  updateUser: ['user', 'id'],
+  updateUserSuccess: null,
+  updateUserFailure: null,
 })
 
 export interface RequestUser {
@@ -74,11 +87,16 @@ export interface CreateUserRequest {
   user: CreateUser
 }
 
+export interface UpdateUser extends Partial<CreateUserRequest> {
+  id: string
+}
+
 export interface UserStateType {
   pagination: UserPagination
   user: User | null
   confirmModalIsOpen: boolean
   createModalIsOpen: boolean
+  updateModalIsOpen: boolean
 
   loadings: {
     get: {
@@ -116,7 +134,8 @@ export const INITIAL_STATE: UserStateType = Immutable({
     put: false,
   },
   confirmModalIsOpen: false,
-  createModalIsOpen: true,
+  createModalIsOpen: false,
+  updateModalIsOpen: false,
 })
 
 /* ------------- Reducers ------------- */
@@ -170,7 +189,7 @@ export const SetConfirmModalState = (
   { value }: SetModalState,
 ): UserStateType => ({
   ...state,
-  createModalIsOpen: value,
+  confirmModalIsOpen: value,
 })
 
 export const SetCreateModalState = (
@@ -179,6 +198,14 @@ export const SetCreateModalState = (
 ): UserStateType => ({
   ...state,
   createModalIsOpen: value,
+})
+
+export const SetUpdateModalState = (
+  state: UserStateType = INITIAL_STATE,
+  { value }: SetModalState,
+): UserStateType => ({
+  ...state,
+  updateModalIsOpen: value,
 })
 
 export const CreateUserRequest = (
@@ -203,6 +230,28 @@ export const CreateUserRequestFailure = (
   loadings: { ...state.loadings, post: false },
 })
 
+export const UpdateUserRequest = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  loadings: { ...state.loadings, post: true },
+})
+
+export const UpdateUserRequestSuccess = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  updateModalIsOpen: false,
+  loadings: { ...state.loadings, post: false },
+})
+
+export const UpdateUserRequestFailure = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  loadings: { ...state.loadings, post: false },
+})
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer<UserStateType, ActionTypes>(
@@ -216,8 +265,12 @@ export const reducer = createReducer<UserStateType, ActionTypes>(
     [Types.DELETE_USER_FAILURE]: DeleteUserFailure,
     [Types.SET_CONFIRM_MODAL_STATE]: SetConfirmModalState,
     [Types.SET_CREATE_MODAL_STATE]: SetCreateModalState,
+    [Types.SET_UPDATE_MODAL_STATE]: SetUpdateModalState,
     [Types.CREATE_USER]: CreateUserRequest,
     [Types.CREATE_USER_SUCCESS]: CreateUserRequestSuccess,
     [Types.CREATE_USER_FAILURE]: CreateUserRequestFailure,
+    [Types.UPDATE_USER]: UpdateUserRequest,
+    [Types.UPDATE_USER_SUCCESS]: UpdateUserRequestSuccess,
+    [Types.UPDATE_USER_FAILURE]: UpdateUserRequestFailure,
   },
 )

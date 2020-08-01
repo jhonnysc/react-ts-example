@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import lodash from 'lodash'
 
 import { AppState } from '@/store/ducks/types'
-import { Creators } from '@/store/ducks/users'
+import { Creators, SetUpdateModalState } from '@/store/ducks/users'
 import { UserGetQuery, User, CreateUser } from '@/types'
 import Pagination from '@material-ui/lab/Pagination'
 
 import { HomeHeader } from './components/header'
 import { ConfirmModal } from './components/modals/confirm-modal'
 import { CreateUserModal } from './components/modals/create-user-modal'
+import { UpdateUserModal } from './components/modals/update-user-modal'
 import { TableHeader, Sort } from './components/table-header'
 import { TableRow } from './components/table-row'
 import { Container, Table, TableRows, PaginationContainer } from './styles'
@@ -31,9 +32,12 @@ export const Home: React.FC = () => {
     (state: AppState) => state.User.createModalIsOpen,
   )
 
+  const updateModalIsOpen = useSelector(
+    (state: AppState) => state.User.updateModalIsOpen,
+  )
   const [checked, setChecked] = useState<boolean>(false)
   const [rowChecked, setRowChecked] = useState<RowCheck>({})
-  const [selectedUser, setSelectedUser] = useState<User>()
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [modalTitle, setModalTitle] = useState<string>('Adicionar novo usuario')
   const [query, setQuery] = useState<UserGetQuery>({
     limit: 10,
@@ -58,7 +62,10 @@ export const Home: React.FC = () => {
     setSelectedUser(user)
     dispatch(Creators.setConfirmModalState(true))
   }
-  const handleEditUser = (user: User) => {}
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user)
+    dispatch(Creators.setUpdateModalState(true))
+  }
 
   const handleCheckAll = (isChecked: boolean) => {
     setChecked(isChecked)
@@ -69,16 +76,6 @@ export const Home: React.FC = () => {
     setRowChecked({ ...rowChecked, [id]: checked })
     setChecked(false)
   }
-
-  useEffect(() => {
-    dispatch(Creators.requestUsers(query))
-  }, [dispatch, query])
-
-  useEffect(() => {
-    const usersChecked = {}
-    users?.forEach(user => Object.assign(usersChecked, { [user._id]: false }))
-    setRowChecked(usersChecked)
-  }, [users])
 
   const handleModalClose = () => {
     dispatch(Creators.setConfirmModalState(false))
@@ -103,6 +100,35 @@ export const Home: React.FC = () => {
     dispatch(Creators.setCreateModalState(false))
   }
 
+  const handleUpdateUser = (user: CreateUser) => {
+    if (selectedUser)
+      dispatch(
+        Creators.updateUser(
+          { ...user, age: parseInt(user.age as string, 10) },
+          selectedUser?._id,
+        ),
+      )
+  }
+
+  const handleModalUpdateClose = () => {
+    dispatch(Creators.setUpdateModalState(false))
+  }
+
+  useEffect(() => {
+    dispatch(Creators.requestUsers(query))
+  }, [dispatch, query])
+
+  useEffect(() => {
+    const usersChecked = {}
+    users?.forEach(user => Object.assign(usersChecked, { [user._id]: false }))
+    setRowChecked(usersChecked)
+  }, [users])
+
+  useEffect(() => {
+    if (!confirmModalIsOpen && !createModalIsOpen && !updateModalIsOpen)
+      setSelectedUser(null)
+  }, [confirmModalIsOpen, createModalIsOpen, updateModalIsOpen])
+
   return (
     <Container>
       {confirmModalIsOpen && (
@@ -120,6 +146,16 @@ export const Home: React.FC = () => {
           title="Adicionar novo usuario"
           onConfirm={handleCreateUser}
           loading={loadings.post}
+        />
+      )}
+
+      {updateModalIsOpen && (
+        <UpdateUserModal
+          onClose={handleModalUpdateClose}
+          title="Atualizar usuario"
+          onConfirm={handleUpdateUser}
+          loading={loadings.put}
+          user={selectedUser}
         />
       )}
 
