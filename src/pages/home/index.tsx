@@ -6,7 +6,9 @@ import lodash from 'lodash'
 import { AppState } from '@/store/ducks/types'
 import { Creators, SetUpdateModalState } from '@/store/ducks/users'
 import { UserGetQuery, User, CreateUser } from '@/types'
+import { TextField } from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination'
+import { Form } from '@unform/web'
 
 import { HomeHeader } from './components/header'
 import { ConfirmModal } from './components/modals/confirm-modal'
@@ -14,7 +16,13 @@ import { CreateUserModal } from './components/modals/create-user-modal'
 import { UpdateUserModal } from './components/modals/update-user-modal'
 import { TableHeader, Sort } from './components/table-header'
 import { TableRow } from './components/table-row'
-import { Container, Table, TableRows, PaginationContainer } from './styles'
+import {
+  Container,
+  Table,
+  TableRows,
+  PaginationContainer,
+  SearchFields,
+} from './styles'
 
 interface RowCheck {
   [id: string]: boolean
@@ -38,11 +46,26 @@ export const Home: React.FC = () => {
   const [checked, setChecked] = useState<boolean>(false)
   const [rowChecked, setRowChecked] = useState<RowCheck>({})
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [debounce, setDebouce] = useState<number>()
   const [modalTitle, setModalTitle] = useState<string>('Adicionar novo usuario')
   const [query, setQuery] = useState<UserGetQuery>({
     limit: 10,
     page: 1,
   })
+
+  const handleSearch = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    const { id, value } = event.currentTarget
+
+    if (debounce) clearTimeout(debounce)
+
+    const timeout = setTimeout(() => {
+      setQuery({ ...query, [id]: value })
+    }, 1000)
+
+    setDebouce(timeout)
+  }
 
   const handleDeleteSelected = () => {
     setModalTitle('Deseja realmente deletar todos selecionados?')
@@ -53,8 +76,8 @@ export const Home: React.FC = () => {
     dispatch(Creators.setCreateModalState(true))
   }
 
-  const handleSort = (field: string, direction: Sort) => {
-    console.log({ field, direction })
+  const handleSort = (field: string) => {
+    setQuery({ ...query, sort_by: field })
   }
 
   const handleConfirmDelete = (user: User) => {
@@ -168,7 +191,22 @@ export const Home: React.FC = () => {
       )}
 
       <HomeHeader onClick={handleAdd} handleDelete={handleDeleteSelected} />
+
       <Table>
+        <SearchFields>
+          <TextField
+            id="name"
+            label="Nome"
+            variant="outlined"
+            onChange={handleSearch}
+          />
+          <TextField
+            id="email"
+            label="Email"
+            variant="outlined"
+            onChange={handleSearch}
+          />
+        </SearchFields>
         <TableHeader
           onSort={handleSort}
           checked={checked}

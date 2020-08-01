@@ -49,7 +49,7 @@ export interface UserGetQuery {
 
   name?: string
 
-  route?: string
+  sort_by?: string
 }
 
 export enum Roles {

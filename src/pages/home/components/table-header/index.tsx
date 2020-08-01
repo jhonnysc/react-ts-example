@@ -8,7 +8,7 @@ import { Container, Column, Options } from './styles'
 export type Sort = 1 | 0
 
 interface TableHeaderProps {
-  onSort: (field: string, direction: Sort) => void
+  onSort: (field: string) => void
   checked: boolean
   handleCheck: (checked: boolean) => void
 }
@@ -51,7 +51,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   const handleSort = (field: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     if (selected === field.currentTarget.id) setSortUp(!sortUp)
     setSelected(field.currentTarget.id as Selected)
-    onSort(field.currentTarget.id, sortUp ? 1 : 0)
+    onSort(`${!sortUp ? '' : '-'}${field.currentTarget.id}`)
   }
   return (
     <Container>

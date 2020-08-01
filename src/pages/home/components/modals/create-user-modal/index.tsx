@@ -37,15 +37,21 @@ export const CreateUserModal: React.FC<CreateUserProps> = ({
       <ModalTitle>{title}</ModalTitle>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <FormContainer>
-          <Input name="name" label="Nome" />
-          <Input name="email" label="Email" type="email" />
-          <Input name="password" label="Senha" type="password" />
-          <Input name="hobby" label="Hobby" />
-          <Input name="dayOfBirth" label="Data de Nascimento" type="date" />
-          <Input name="age" label="Idade" type="number" />
-          <Input name="sex" label="Sexo" />
+          <Input required name="name" label="Nome" />
+          <Input required name="email" label="Email" type="email" />
+          <Input required name="password" label="Senha" type="password" />
+          <Input required name="hobby" label="Hobby" />
+          <Input
+            required
+            name="dayOfBirth"
+            label="Data de Nascimento"
+            type="date"
+          />
+          <Input required name="age" label="Idade" type="number" />
+          <Input required name="sex" label="Sexo" />
 
           <Select
+            required
             name="roles"
             label="Cargo"
             isMulti

@@ -29,3 +29,11 @@ export const PaginationContainer = styled.div`
   justify-content: center;
   width: 100%;
 `
+
+export const SearchFields = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 20px;
+  padding-bottom: 20px;
+  max-width: 50%;
+`
