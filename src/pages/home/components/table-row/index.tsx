@@ -1,6 +1,7 @@
 import React from 'react'
 import { FiTrash, FiEdit } from 'react-icons/fi'
 
+import { User } from '@/types'
 import { Checkbox } from '@material-ui/core'
 
 import { Container, Column, IconsContainer } from './styles'
@@ -8,55 +9,48 @@ import { Container, Column, IconsContainer } from './styles'
 interface TableRowProps {
   checked: boolean
   handleCheck: (checked: boolean, id: string) => void
-  name: string
-  email: string
-  hobby: string
-  dayOfBirth: string
-  age: number
-  sex: string
-  id: string
+  onDelete: (user: User) => void
+  onEdit: (user: User) => void
+  user: User
 }
 
 export const TableRow: React.FC<TableRowProps> = ({
   checked,
   handleCheck,
-  age,
-  dayOfBirth,
-  email,
-  hobby,
-  name,
-  sex,
-  id,
+
+  user,
+  onDelete,
+  onEdit,
 }) => {
   return (
     <Container>
       <Checkbox
         checked={checked || false}
-        onChange={(_, checked) => handleCheck(checked, id)}
+        onChange={(_, checked) => handleCheck(checked, user._id)}
         color="primary"
         inputProps={{ 'aria-label': 'primary checkbox' }}
       />
       <Column id="name" flex="1">
-        {name}
+        {user.name}
       </Column>
       <Column id="email" flex="1">
-        {email}
+        {user.email}
       </Column>
       <Column id="hobby" flex="1">
-        {hobby}
+        {user.hobby}
       </Column>
       <Column id="dayOfBirth" flex="1">
-        {new Date(dayOfBirth).toLocaleDateString()}
+        {new Date(user.dayOfBirth).toLocaleDateString()}
       </Column>
       <Column id="age" flex="0.5">
-        {age}
+        {user.age}
       </Column>
       <Column id="sex" flex="0.5">
-        {sex}
+        {user.sex}
       </Column>
       <IconsContainer>
-        <FiEdit color="blue" />
-        <FiTrash color="red" />
+        <FiEdit color="blue" onClick={() => onEdit(user)} />
+        <FiTrash color="red" onClick={() => onDelete(user)} />
       </IconsContainer>
     </Container>
   )

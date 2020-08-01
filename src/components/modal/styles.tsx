@@ -19,6 +19,7 @@ export const ModalContainer = styled.div`
   border-radius: 10px;
   display: grid;
   grid-gap: 15px;
+  max-width: 50%;
 `
 
 export const IconsContainer = styled.div`

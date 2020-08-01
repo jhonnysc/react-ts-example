@@ -39,3 +39,37 @@ export interface UserPagination {
 
   links: IPaginationLinks
 }
+
+export interface UserGetQuery {
+  limit: number
+
+  page: number
+
+  email?: string
+
+  name?: string
+
+  route?: string
+}
+
+export enum Roles {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}
+
+export interface CreateUser {
+  name: string
+
+  email: string
+  password: string
+
+  sex: string
+
+  hobby: string
+
+  dayOfBirth: string
+
+  age: number | string
+
+  roles: Roles[]
+}

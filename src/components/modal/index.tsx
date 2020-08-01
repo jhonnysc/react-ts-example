@@ -5,14 +5,15 @@ import { Container, ModalContainer, IconsContainer } from './styles'
 
 interface ModalProps {
   onClose: () => void
+  pending?: boolean
 }
 
-export const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
+export const Modal: React.FC<ModalProps> = ({ children, onClose, pending }) => {
   const handleClose = (
     event?: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     if (event) event.stopPropagation()
-    onClose()
+    if (!pending) onClose()
   }
 
   return (
