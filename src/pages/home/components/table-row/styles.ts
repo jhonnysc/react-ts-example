@@ -19,7 +19,6 @@ interface ColumnProps {
 export const Column = styled.span<ColumnProps>`
   display: flex;
   flex: ${({ flex }) => flex};
-  font-weight: bold;
   cursor: pointer;
 `
 

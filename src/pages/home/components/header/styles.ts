@@ -22,4 +22,8 @@ export const HeaderTitle = styled.span`
   font-size: 1.5rem;
 `
 
-export const HeaderButtons = styled.div``
+export const HeaderButtons = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 15px;
+`

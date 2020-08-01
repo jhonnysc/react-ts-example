@@ -74,7 +74,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         {selected === 'hobby' && icons[selected]}
       </Column>
       <Column id="dayOfBirth" onClick={handleSort} flex="1">
-        Aniversario
+        Nascimento
         {selected === 'dayOfBirth' && icons[selected]}
       </Column>
       <Column id="age" flex="0.5" onClick={handleSort}>

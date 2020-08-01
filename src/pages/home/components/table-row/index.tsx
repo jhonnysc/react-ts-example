@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React from 'react'
 import { FiTrash, FiEdit } from 'react-icons/fi'
 
 import { Checkbox } from '@material-ui/core'
@@ -46,7 +46,7 @@ export const TableRow: React.FC<TableRowProps> = ({
         {hobby}
       </Column>
       <Column id="dayOfBirth" flex="1">
-        {dayOfBirth}
+        {new Date(dayOfBirth).toLocaleDateString()}
       </Column>
       <Column id="age" flex="0.5">
         {age}
