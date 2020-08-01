@@ -12,7 +12,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    color: ${theme.colors.gray[700]};
+    color: ${theme.colors.blue};
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
   }
