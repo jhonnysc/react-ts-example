@@ -55,7 +55,7 @@
     "start:hml": "env-cmd -f ./env/hml.env react-app-rewired start",
     "build": "env-cmd -f ./env/prod.env react-app-rewired build",
     "test": "react-app-rewired test",
-    "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
+    "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --max-warnings 0",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write"
   },

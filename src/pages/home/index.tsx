@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import lodash from 'lodash'
 
 import { AppState } from '@/store/ducks/types'
-import { Creators, SetUpdateModalState } from '@/store/ducks/users'
+import { Creators } from '@/store/ducks/users'
 import { UserGetQuery, User, CreateUser } from '@/types'
 import { TextField } from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination'
-import { Form } from '@unform/web'
 
 import { HomeHeader } from './components/header'
 import { ConfirmModal } from './components/modals/confirm-modal'
 import { CreateUserModal } from './components/modals/create-user-modal'
 import { UpdateUserModal } from './components/modals/update-user-modal'
-import { TableHeader, Sort } from './components/table-header'
+import { TableHeader } from './components/table-header'
 import { TableRow } from './components/table-row'
 import {
   Container,

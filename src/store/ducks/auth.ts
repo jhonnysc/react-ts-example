@@ -94,7 +94,6 @@ export const INITIAL_STATE: AuthStateType = Immutable({
 /* ------------- Reducers ------------- */
 export const LoginRequest = (
   state: AuthStateType = INITIAL_STATE,
-  { email, password }: LoginRequestPayload,
 ): AuthStateType => ({
   ...state,
   loading: { ...state.loading, post: true },

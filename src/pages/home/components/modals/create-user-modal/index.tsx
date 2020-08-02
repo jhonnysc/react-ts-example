@@ -6,7 +6,7 @@ import { Modal } from '@/components/modal'
 import Input from '@/components/ui/input'
 import Select from '@/components/ui/select'
 import { CreateUser } from '@/types'
-import { Button, MenuItem } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { SubmitHandler, FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 
