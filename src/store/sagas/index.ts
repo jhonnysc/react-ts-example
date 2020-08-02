@@ -8,6 +8,7 @@ import {
   deleteUser,
   requestCreateUser,
   requestUpdateUser,
+  autoCreateUsers,
 } from './users'
 
 export default function* rootSaga() {
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     takeLatest(UserTypes.DELETE_USER, deleteUser),
     takeLatest(UserTypes.CREATE_USER, requestCreateUser),
     takeLatest(UserTypes.UPDATE_USER, requestUpdateUser),
+    takeLatest(UserTypes.AUTO_CREATE_USER, autoCreateUsers),
   ])
 }

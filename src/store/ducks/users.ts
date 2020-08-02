@@ -19,6 +19,10 @@ export enum UserActionsEnum {
   CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS',
   CREATE_USER_FAILURE = 'CREATE_USER_FAILURE',
 
+  AUTO_CREATE_USER = 'AUTO_CREATE_USER',
+  AUTO_CREATE_USER_SUCCESS = 'AUTO_CREATE_USER_SUCCESS',
+  AUTO_CREATE_USER_FAILURE = 'AUTO_CREATE_USER_FAILURE',
+
   UPDATE_USER = 'UPDATE_USER',
   UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS',
   UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE',
@@ -44,6 +48,9 @@ export interface ActionTypes extends Action<UserActionsEnum> {
   updateUser: (user: Partial<CreateUser>, id: string) => Action
   updateUserSuccess: () => Action
   updateUserFailure: () => Action
+  autoCreateUser: () => Action
+  autoCreateUserSuccess: () => Action
+  autoCreateUserFailure: () => Action
 }
 
 type UserTypes = typeof UserActionsEnum
@@ -65,6 +72,9 @@ export const { Types, Creators } = createActions<UserTypes, ActionTypes>({
   updateUser: ['user', 'id'],
   updateUserSuccess: null,
   updateUserFailure: null,
+  autoCreateUser: null,
+  autoCreateUserSuccess: null,
+  autoCreateUserFailure: null,
 })
 
 export interface RequestUser {
@@ -252,6 +262,27 @@ export const UpdateUserRequestFailure = (
   loadings: { ...state.loadings, post: false },
 })
 
+export const AutoCreateUserRequest = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  loadings: { ...state.loadings, post: true },
+})
+
+export const AutoCreateUserRequestSuccess = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  loadings: { ...state.loadings, post: false },
+})
+
+export const AutoCreateUserRequestFailure = (
+  state: UserStateType = INITIAL_STATE,
+): UserStateType => ({
+  ...state,
+  loadings: { ...state.loadings, post: false },
+})
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer<UserStateType, ActionTypes>(
@@ -272,5 +303,8 @@ export const reducer = createReducer<UserStateType, ActionTypes>(
     [Types.UPDATE_USER]: UpdateUserRequest,
     [Types.UPDATE_USER_SUCCESS]: UpdateUserRequestSuccess,
     [Types.UPDATE_USER_FAILURE]: UpdateUserRequestFailure,
+    [Types.AUTO_CREATE_USER]: AutoCreateUserRequest,
+    [Types.AUTO_CREATE_USER_SUCCESS]: AutoCreateUserRequestSuccess,
+    [Types.AUTO_CREATE_USER_FAILURE]: AutoCreateUserRequestFailure,
   },
 )

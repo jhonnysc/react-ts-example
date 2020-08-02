@@ -148,6 +148,10 @@ export const Home: React.FC = () => {
     dispatch(Creators.requestUsers(query))
   }, [dispatch, query])
 
+  const handleAutoAdd = () => {
+    dispatch(Creators.autoCreateUser())
+  }
+
   useEffect(() => {
     const usersChecked = {}
     users?.forEach(user => Object.assign(usersChecked, { [user._id]: false }))
@@ -189,7 +193,12 @@ export const Home: React.FC = () => {
         />
       )}
 
-      <HomeHeader onClick={handleAdd} handleDelete={handleDeleteSelected} />
+      <HomeHeader
+        onClick={handleAdd}
+        handleDelete={handleDeleteSelected}
+        autoAdd={handleAutoAdd}
+        pending={loadings.post}
+      />
 
       <Table>
         <SearchFields>
